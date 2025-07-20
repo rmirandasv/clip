@@ -1,3 +1,5 @@
+## [0.0.2](https://github.com/rmirandasv/clip/compare/v0.0.1...v0.0.2) (2025-07-20)
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
