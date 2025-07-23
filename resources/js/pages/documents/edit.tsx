@@ -1,3 +1,4 @@
+import DocumentForm from "@/components/document-form";
 import Heading from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
@@ -11,28 +12,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
-const schema = z.object({
-  name: z.string().min(1),
-  content: z.string().min(1),
-});
-
-export default function DocumentEdit({ directory, file, content }: { directory: string; file: string; content: string }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: file,
-      content,
-    },
-  });
-
-  const onSubmit = (data: z.infer<typeof schema>) => {
-    router.put(route("documents.update", { directory, file }), data, {
-      onStart: () => setIsLoading(true),
-      onFinish: () => setIsLoading(false),
-    });
-  };
-
+export default function DocumentEdit({
+  directory,
+  file,
+  name,
+  tags,
+  content,
+}: {
+  directory: string;
+  file: string;
+  name: string;
+  tags: string[];
+  content: string;
+}) {
   return (
     <AppLayout
       breadcrumbs={[
@@ -42,41 +34,8 @@ export default function DocumentEdit({ directory, file, content }: { directory: 
         { title: "Edit", href: route("documents.edit", [directory, file]) },
       ]}
     >
-      <Container>
-        <Heading title={file} />
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Content</FormLabel>
-                  <FormControl>
-                    <MDEditor value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button disabled={isLoading} type="submit">
-              {isLoading ? "Saving..." : "Save"}
-            </Button>
-          </form>
-        </Form>
+      <Container className="bg-secondary">
+        <DocumentForm directory={directory} initialValues={{ name, tags, content }} />
       </Container>
     </AppLayout>
   );

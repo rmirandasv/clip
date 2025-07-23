@@ -8,6 +8,8 @@ use App\Actions\UpdateDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
+use Symfony\Component\Yaml\Yaml;
 
 class DocumentController extends Controller
 {
@@ -38,9 +40,15 @@ class DocumentController extends Controller
 
     public function edit(string $directory, string $file)
     {
-        $content = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
+        $raw = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
 
-        return Inertia::render('documents/edit', compact('directory', 'file', 'content'));
+        $yaml = YamlFrontMatter::parse($raw);
+        $matter = $yaml->matter();
+        $content = $yaml->body();
+        $name = $matter['title'];
+        $tags = $matter['tags'];
+
+        return Inertia::render('documents/edit', compact('directory', 'file', 'name', 'tags', 'content'));
     }
 
     public function update(Request $request, string $directory, string $file, UpdateDocument $updateDocument)
