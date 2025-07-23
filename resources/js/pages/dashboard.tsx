@@ -187,12 +187,7 @@ export default function Dashboard({ directories, documents }: { directories: str
                   Get started by creating your first directory to organize your documents, or create a document directly.
                 </p>
                 <div className="flex items-center gap-3">
-                  <Button asChild>
-                    <Link href={route("directories.create")} className="flex items-center gap-2">
-                      <Folder className="h-4 w-4" />
-                      Create Directory
-                    </Link>
-                  </Button>
+                  <CreateDirectoryModal />
                   <Button asChild variant="outline">
                     <Link href={route("documents.create", "general")} className="flex items-center gap-2">
                       <FileText className="h-4 w-4" />

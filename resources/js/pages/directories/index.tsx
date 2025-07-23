@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AppLayout from "@/layouts/app-layout";
 import { Link } from "@inertiajs/react";
-import { Filter, Folder, FolderOpen, Grid3X3, List, Plus, Search } from "lucide-react";
+import { Filter, Folder, FolderOpen, Grid3X3, List, Search } from "lucide-react";
 import { useState } from "react";
 
 export default function DirectoryIndex({ directories }: { directories: string[] }) {
@@ -65,12 +65,7 @@ export default function DirectoryIndex({ directories }: { directories: string[] 
                 <p className="mb-4 text-center text-sm text-muted-foreground">
                   Get started by creating your first directory to organize your documents.
                 </p>
-                <Button asChild>
-                  <Link href={route("directories.create")} className="flex items-center gap-2">
-                    <Plus className="h-4 w-4" />
-                    Create Directory
-                  </Link>
-                </Button>
+                <CreateDirectoryModal />
               </CardContent>
             </Card>
           ) : (
