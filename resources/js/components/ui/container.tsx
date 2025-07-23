@@ -1,5 +1,7 @@
-export function Container({ children }: { children: React.ReactNode }) {
+import { cn } from "@/lib/utils";
+
+export function Container({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
-        <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">{children}</div>
+        <div className={cn("flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto", className)}>{children}</div>
     );
 }

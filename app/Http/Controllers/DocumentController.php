@@ -8,6 +8,7 @@ use App\Actions\UpdateDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 class DocumentController extends Controller
 {
@@ -20,26 +21,38 @@ class DocumentController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'tags' => 'nullable|array',
             'content' => 'required|string',
         ]);
 
-        $createDocument->handle($directory, $request->name, $request->content);
+        $createDocument->handle($directory, $request->name, $request->content, $request->tags ?? []);
 
         return redirect()->route('directories.show', $directory);
     }
 
     public function show(string $directory, string $file)
     {
-        $content = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
+        $raw = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
+        $yaml = YamlFrontMatter::parse($raw);
+        $matter = $yaml->matter();
+        $content = $yaml->body();
+        $name = $matter['title'];
+        $tags = $matter['tags'];
 
-        return Inertia::render('documents/show', compact('directory', 'file', 'content'));
+        return Inertia::render('documents/show', compact('directory', 'file', 'name', 'tags', 'content'));
     }
 
     public function edit(string $directory, string $file)
     {
-        $content = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
+        $raw = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
 
-        return Inertia::render('documents/edit', compact('directory', 'file', 'content'));
+        $yaml = YamlFrontMatter::parse($raw);
+        $matter = $yaml->matter();
+        $content = $yaml->body();
+        $name = $matter['title'];
+        $tags = $matter['tags'];
+
+        return Inertia::render('documents/edit', compact('directory', 'file', 'name', 'tags', 'content'));
     }
 
     public function update(Request $request, string $directory, string $file, UpdateDocument $updateDocument)
@@ -47,11 +60,12 @@ class DocumentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'content' => 'required|string',
+            'tags' => 'nullable|array',
         ]);
 
-        $updateDocument->handle($directory, $file, $request->name, $request->content);
+        $updateDocument->handle($directory, $file, $request->name, $request->content, $request->tags ?? []);
 
-        return redirect()->route('documents.show', [$directory, $file]);
+        return redirect()->route('directories.show', $directory);
     }
 
     public function destroy(string $directory, string $file, DeleteDocument $deleteDocument)

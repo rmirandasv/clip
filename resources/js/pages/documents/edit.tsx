@@ -1,33 +1,26 @@
-import Heading from "@/components/heading";
-import { Button } from "@/components/ui/button";
+import DocumentForm, { DocumentFormData } from "@/components/document-form";
 import { Container } from "@/components/ui/container";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import AppLayout from "@/layouts/app-layout";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "@inertiajs/react";
-import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
 
-const schema = z.object({
-  name: z.string().min(1),
-  content: z.string().min(1),
-});
-
-export default function DocumentEdit({ directory, file, content }: { directory: string; file: string; content: string }) {
+export default function DocumentEdit({
+  directory,
+  file,
+  name,
+  tags,
+  content,
+}: {
+  directory: string;
+  file: string;
+  name: string;
+  tags: string[];
+  content: string;
+}) {
   const [isLoading, setIsLoading] = useState(false);
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: file,
-      content,
-    },
-  });
 
-  const onSubmit = (data: z.infer<typeof schema>) => {
-    router.put(route("documents.update", { directory, file }), data, {
+  const handleSubmit = (data: DocumentFormData) => {
+    router.put(route("documents.update", [directory, file]), data, {
       onStart: () => setIsLoading(true),
       onFinish: () => setIsLoading(false),
     });
@@ -42,41 +35,14 @@ export default function DocumentEdit({ directory, file, content }: { directory: 
         { title: "Edit", href: route("documents.edit", [directory, file]) },
       ]}
     >
-      <Container>
-        <Heading title={file} />
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Content</FormLabel>
-                  <FormControl>
-                    <MDEditor value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button disabled={isLoading} type="submit">
-              {isLoading ? "Saving..." : "Save"}
-            </Button>
-          </form>
-        </Form>
+      <Container className="bg-secondary">
+        <DocumentForm
+          initialValues={{ name, tags, content }}
+          loading={isLoading}
+          onSubmit={handleSubmit}
+          submitButtonText="Update Document"
+          loadingText="Updating..."
+        />
       </Container>
     </AppLayout>
   );
