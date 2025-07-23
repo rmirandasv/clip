@@ -32,9 +32,14 @@ class DocumentController extends Controller
 
     public function show(string $directory, string $file)
     {
-        $content = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
+        $raw = Storage::disk('local')->get(sprintf('%s/%s', $directory, $file));
+        $yaml = YamlFrontMatter::parse($raw);
+        $matter = $yaml->matter();
+        $content = $yaml->body();
+        $name = $matter['title'];
+        $tags = $matter['tags'];
 
-        return Inertia::render('documents/show', compact('directory', 'file', 'content'));
+        return Inertia::render('documents/show', compact('directory', 'file', 'name', 'tags', 'content'));
     }
 
     public function edit(string $directory, string $file)
