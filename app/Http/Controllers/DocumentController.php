@@ -20,10 +20,11 @@ class DocumentController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'tags' => 'nullable|array',
             'content' => 'required|string',
         ]);
 
-        $createDocument->handle($directory, $request->name, $request->content);
+        $createDocument->handle($directory, $request->name, $request->content, $request->tags ?? []);
 
         return redirect()->route('directories.show', $directory);
     }
