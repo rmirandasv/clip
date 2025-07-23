@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "@inertiajs/react";
 import MDEditor from "@uiw/react-md-editor";
 import { Loader2, X } from "lucide-react";
 import { useState } from "react";
@@ -16,19 +15,29 @@ const schema = z.object({
   tags: z.array(z.string()).optional(),
 });
 
+export type DocumentFormData = z.infer<typeof schema>;
+
 type DocumentFormProps = {
-  directory: string;
   initialValues?: {
     name: string;
     tags: string[];
     content: string;
   };
+  loading?: boolean;
+  onSubmit: (data: DocumentFormData) => void;
+  submitButtonText?: string;
+  loadingText?: string;
 };
 
-export default function DocumentForm({ directory, initialValues }: DocumentFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function DocumentForm({
+  initialValues,
+  loading = false,
+  onSubmit,
+  submitButtonText = "Create Document",
+  loadingText = "Creating...",
+}: DocumentFormProps) {
   const [tagInput, setTagInput] = useState("");
-  const form = useForm<z.infer<typeof schema>>({
+  const form = useForm<DocumentFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: initialValues?.name || "File Name",
@@ -36,13 +45,6 @@ export default function DocumentForm({ directory, initialValues }: DocumentFormP
       tags: initialValues?.tags || [],
     },
   });
-
-  const onSubmit = (data: z.infer<typeof schema>) => {
-    router.post(route("documents.store", directory), data, {
-      onStart: () => setIsLoading(true),
-      onFinish: () => setIsLoading(false),
-    });
-  };
 
   const handleAddTag = () => {
     if (tagInput.trim() && !form.getValues("tags")?.includes(tagInput.trim())) {
@@ -67,9 +69,13 @@ export default function DocumentForm({ directory, initialValues }: DocumentFormP
     }
   };
 
+  const handleFormSubmit = (data: DocumentFormData) => {
+    onSubmit(data);
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
         {/* File Name Section */}
         <div className="space-y-2">
           <FormField
@@ -155,14 +161,14 @@ export default function DocumentForm({ directory, initialValues }: DocumentFormP
 
         {/* Submit Button */}
         <div className="pt-4">
-          <Button type="submit" variant="ghost" className="w-full" disabled={isLoading}>
-            {isLoading ? (
+          <Button type="submit" variant="ghost" className="w-full" disabled={loading}>
+            {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating...
+                {loadingText}
               </>
             ) : (
-              "Create Document"
+              submitButtonText
             )}
           </Button>
         </div>

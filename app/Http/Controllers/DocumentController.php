@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
-use Symfony\Component\Yaml\Yaml;
 
 class DocumentController extends Controller
 {
@@ -56,11 +55,12 @@ class DocumentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'content' => 'required|string',
+            'tags' => 'nullable|array',
         ]);
 
-        $updateDocument->handle($directory, $file, $request->name, $request->content);
+        $updateDocument->handle($directory, $file, $request->name, $request->content, $request->tags ?? []);
 
-        return redirect()->route('documents.show', [$directory, $file]);
+        return redirect()->route('directories.show', $directory);
     }
 
     public function destroy(string $directory, string $file, DeleteDocument $deleteDocument)

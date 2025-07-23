@@ -1,16 +1,8 @@
-import DocumentForm from "@/components/document-form";
-import Heading from "@/components/heading";
-import { Button } from "@/components/ui/button";
+import DocumentForm, { DocumentFormData } from "@/components/document-form";
 import { Container } from "@/components/ui/container";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import AppLayout from "@/layouts/app-layout";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "@inertiajs/react";
-import MDEditor from "@uiw/react-md-editor";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
 
 export default function DocumentEdit({
   directory,
@@ -25,6 +17,15 @@ export default function DocumentEdit({
   tags: string[];
   content: string;
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (data: DocumentFormData) => {
+    router.put(route("documents.update", [directory, file]), data, {
+      onStart: () => setIsLoading(true),
+      onFinish: () => setIsLoading(false),
+    });
+  };
+
   return (
     <AppLayout
       breadcrumbs={[
@@ -35,7 +36,13 @@ export default function DocumentEdit({
       ]}
     >
       <Container className="bg-secondary">
-        <DocumentForm directory={directory} initialValues={{ name, tags, content }} />
+        <DocumentForm
+          initialValues={{ name, tags, content }}
+          loading={isLoading}
+          onSubmit={handleSubmit}
+          submitButtonText="Update Document"
+          loadingText="Updating..."
+        />
       </Container>
     </AppLayout>
   );
