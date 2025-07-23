@@ -9,6 +9,14 @@ use Inertia\Inertia;
 
 class DirectoryController extends Controller
 {
+    public function index()
+    {
+        $directories = Storage::disk('local')->directories();
+        $directories = array_map(fn ($directory) => basename($directory), $directories);
+
+        return Inertia::render('directories/index', compact('directories'));
+    }
+
     public function store(Request $request, CreateDirectory $createDirectory)
     {
         $request->validate([
