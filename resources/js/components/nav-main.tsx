@@ -29,7 +29,7 @@ export function NavMain({ directories = [] }: { directories: string[] }) {
         ))}
         <SidebarMenuItem>
           <SidebarMenuItem>
-            <CreateDirectoryModal />
+            <CreateDirectoryModal sidebar />
           </SidebarMenuItem>
         </SidebarMenuItem>
       </SidebarMenu>

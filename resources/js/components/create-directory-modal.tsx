@@ -14,7 +14,11 @@ const schema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
 });
 
-export default function CreateDirectoryModal() {
+type CreateDirectoryModalProps = {
+  sidebar?: boolean;
+};
+
+export default function CreateDirectoryModal({ sidebar = false }: CreateDirectoryModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof schema>>({
@@ -37,12 +41,21 @@ export default function CreateDirectoryModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className="flex w-fit items-center gap-2">
-        <SidebarMenuButton>
-          <Plus />
-          <span>Directory</span>
-        </SidebarMenuButton>
-      </DialogTrigger>
+      {sidebar ? (
+        <DialogTrigger className="flex w-fit items-center gap-2">
+          <SidebarMenuButton>
+            <Plus />
+            <span>Directory</span>
+          </SidebarMenuButton>
+        </DialogTrigger>
+      ) : (
+        <DialogTrigger asChild>
+          <Button className="flex w-fit items-center gap-2">
+            <Plus />
+            <span>Directory</span>
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create Directory</DialogTitle>
