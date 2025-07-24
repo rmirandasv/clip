@@ -1,3 +1,4 @@
+import { useAppearance } from "@/hooks/use-appearance";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MDEditor from "@uiw/react-md-editor";
 import { Loader2, X } from "lucide-react";
@@ -36,6 +37,7 @@ export default function DocumentForm({
   submitButtonText = "Create Document",
   loadingText = "Creating...",
 }: DocumentFormProps) {
+  const { appearance } = useAppearance();
   const [tagInput, setTagInput] = useState("");
   const form = useForm<DocumentFormData>({
     resolver: zodResolver(schema),
@@ -45,6 +47,7 @@ export default function DocumentForm({
       tags: initialValues?.tags || [],
     },
   });
+  const colorMode = appearance === "dark" ? "dark" : "light";
 
   const handleAddTag = () => {
     if (tagInput.trim() && !form.getValues("tags")?.includes(tagInput.trim())) {
@@ -76,7 +79,6 @@ export default function DocumentForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
-        {/* File Name Section */}
         <div className="space-y-2">
           <FormField
             control={form.control}
@@ -95,8 +97,6 @@ export default function DocumentForm({
             )}
           />
         </div>
-
-        {/* Tags Section */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <div className="flex-1">
@@ -114,8 +114,6 @@ export default function DocumentForm({
               </div>
             </div>
           </div>
-
-          {/* Tags Display */}
           {form.watch("tags") && form.watch("tags")!.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {form.watch("tags")!.map((tag, index) => (
@@ -133,8 +131,6 @@ export default function DocumentForm({
             </div>
           )}
         </div>
-
-        {/* Content Section */}
         <div className="space-y-3">
           <FormField
             control={form.control}
@@ -149,7 +145,7 @@ export default function DocumentForm({
                       onChange={field.onChange}
                       height={500}
                       preview="live"
-                      data-color-mode="dark"
+                      data-color-mode={colorMode}
                     />
                   </div>
                 </FormControl>
@@ -158,8 +154,6 @@ export default function DocumentForm({
             )}
           />
         </div>
-
-        {/* Submit Button */}
         <div className="pt-4">
           <Button type="submit" variant="ghost" className="w-full" disabled={loading}>
             {loading ? (
