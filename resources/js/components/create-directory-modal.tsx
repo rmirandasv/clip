@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "@inertiajs/react";
-import { Plus } from "lucide-react";
+import { FolderPlus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -44,14 +44,14 @@ export default function CreateDirectoryModal({ sidebar = false }: CreateDirector
       {sidebar ? (
         <DialogTrigger className="flex w-fit items-center gap-2">
           <SidebarMenuButton>
-            <Plus />
+            <FolderPlus />
             <span>Directory</span>
           </SidebarMenuButton>
         </DialogTrigger>
       ) : (
         <DialogTrigger asChild>
           <Button className="flex w-fit items-center gap-2">
-            <Plus />
+            <FolderPlus />
             <span>Directory</span>
           </Button>
         </DialogTrigger>
