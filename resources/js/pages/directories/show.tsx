@@ -1,3 +1,4 @@
+import CreateDocumentModal from "@/components/create-document-modal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,12 +29,7 @@ export default function DirectoryShow({ directory, files }: { directory: string;
                 {files.length} document{files.length !== 1 ? "s" : ""} in this directory
               </p>
             </div>
-            <Button asChild className="flex items-center gap-2">
-              <Link href={route("documents.create", directory)}>
-                <Plus className="h-4 w-4" />
-                Create Document
-              </Link>
-            </Button>
+            <CreateDocumentModal directory={directory} />
           </div>
 
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">

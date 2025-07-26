@@ -22,12 +22,21 @@ class DocumentController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'tags' => 'nullable|array',
-            'content' => 'required|string',
+            'content' => 'nullable|string',
         ]);
 
-        $createDocument->handle($directory, $request->name, $request->content, $request->tags ?? []);
+        $createDocument->handle(
+            directory: $directory,
+            name: $request->name,
+            content: $request->input('content', null),
+            tags: $request->input('tags', [])
+        );
 
-        return redirect()->route('directories.show', $directory);
+        if (! $request->content) {
+            return redirect()->route('documents.edit', [$directory, sprintf('%s.md', $request->name)]);
+        }
+
+        return redirect()->route('documents.show', [$directory, $request->name]);
     }
 
     public function show(string $directory, string $file)

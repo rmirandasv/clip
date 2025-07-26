@@ -2,6 +2,7 @@ import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, Sideba
 import { Link, usePage } from "@inertiajs/react";
 import { Folder, Home } from "lucide-react";
 import CreateDirectoryModal from "./create-directory-modal";
+import CreateDocumentModal from "./create-document-modal";
 
 export function NavMain({ directories = [] }: { directories: string[] }) {
   const page = usePage();
@@ -31,6 +32,9 @@ export function NavMain({ directories = [] }: { directories: string[] }) {
           <SidebarMenuItem>
             <CreateDirectoryModal sidebar />
           </SidebarMenuItem>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <CreateDocumentModal sidebar />
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
