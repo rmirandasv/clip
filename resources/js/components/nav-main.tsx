@@ -1,4 +1,4 @@
-import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
 import { Link, usePage } from "@inertiajs/react";
 import { Folder, Home } from "lucide-react";
 import CreateDirectoryModal from "./create-directory-modal";
@@ -28,6 +28,15 @@ export function NavMain({ directories = [] }: { directories: string[] }) {
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild>
+            <Link href={route("directories.index")} prefetch>
+              <Folder className="h-4 w-4" />
+              <span>All Directories</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarSeparator />
         <SidebarMenuItem>
           <SidebarMenuItem>
             <CreateDirectoryModal sidebar />
