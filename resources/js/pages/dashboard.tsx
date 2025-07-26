@@ -1,11 +1,12 @@
 import CreateDirectoryModal from "@/components/create-directory-modal";
+import CreateDocumentModal from "@/components/create-document-modal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import AppLayout from "@/layouts/app-layout";
 import { type BreadcrumbItem } from "@/types";
 import { Head, Link } from "@inertiajs/react";
-import { Activity, ArrowRight, Clock, FileIcon, FileText, Folder, FolderOpen, Plus, TrendingUp } from "lucide-react";
+import { Activity, ArrowRight, Clock, FileIcon, FileText, Folder, FolderOpen, TrendingUp } from "lucide-react";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -28,12 +29,7 @@ export default function Dashboard({ directories, documents }: { directories: str
             </div>
             <div className="flex items-center gap-3">
               <CreateDirectoryModal />
-              <Button asChild>
-                <Link href={route("documents.create", "general")} className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  New Document
-                </Link>
-              </Button>
+              <CreateDocumentModal />
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
