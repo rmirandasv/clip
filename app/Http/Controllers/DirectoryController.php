@@ -10,9 +10,15 @@ use Inertia\Inertia;
 
 class DirectoryController extends Controller
 {
-    public function index(DirectoryQuery $query)
+    public function index(Request $request, DirectoryQuery $directoryQuery)
     {
-        $directories = $query->toArray();
+        $directories = [];
+
+        if (strlen($request->input('search', '') > 0)) {
+            $directories = $directoryQuery->search($request->search)->get();
+        } else {
+            $directories = $directoryQuery->get();
+        }
 
         return Inertia::render('directories/index', compact('directories'));
     }

@@ -15,8 +15,9 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
-  const { directories } = usePage<SharedData>().props;
-  console.log("directories", directories);
+  const { global } = usePage<SharedData>().props;
+  const { directories } = global;
+
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader>

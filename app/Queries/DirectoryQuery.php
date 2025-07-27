@@ -2,87 +2,48 @@
 
 namespace App\Queries;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class DirectoryQuery
 {
-    protected ?Collection $directories = null;
+    protected array $directories = [];
 
     public function __construct(protected string $disk = 'local', protected string $directory = '')
     {
-        
+        $this->query();
     }
 
-    public function query(): self
+    private function query(): void
     {
         $directories = Storage::disk($this->disk)->directories($this->directory);
-        $this->directories = collect($directories);
-
-        return $this;
+        $this->directories = $directories;
     }
 
-    public function all(): Collection
+    public function first(): ?string
     {
-        if (! $this->directories) {
-            $this->query();
-        }
-
-        return $this->directories;
+        return $this->directories[0] ?? null;
     }
 
-    public function first(): string
+    public function last(): ?string
     {
-        if (! $this->directories) {
-            $this->query();
-        }
-
-        return $this->directories->first();
-    }
-
-    public function last(): string
-    {
-        if (! $this->directories) {
-            $this->query();
-        }
-
-        return $this->directories->last();
+        return $this->directories[count($this->directories) - 1] ?? null;
     }
 
     public function count(): int
     {
-        if (! $this->directories) {
-            $this->query();
-        }
-
-        return $this->directories->count();
+        return count($this->directories);
     }
 
-    public function get(): Collection
+    public function get(): array
     {
-        if (! $this->directories) {
-            $this->query();
-        }
-
-        return $this->directories;
+        return array_values($this->directories);
     }
 
-    public function toArray(): array
+    public function search(string $query): self
     {
-        if (! $this->directories) {
-            $this->query();
-        }
+        $this->directories = array_filter($this->directories, fn ($directory) => str_contains($directory, $query));
 
-        return $this->directories->toArray();
-    }
-
-    public function search(string $query): Collection
-    {
-        if (! $this->directories) {
-            $this->query();
-        }
-
-        return $this->directories->filter(fn ($directory) => str_contains($directory, $query));
+        return $this;
     }
 
     public function files(string $directory): array

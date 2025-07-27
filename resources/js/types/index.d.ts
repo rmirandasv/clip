@@ -18,6 +18,8 @@ export interface NavItem {
 }
 
 export interface SharedData {
-  directories: string[];
+  global: {
+    directories: string[];
+  };
   [key: string]: unknown;
 }
