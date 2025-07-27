@@ -62,9 +62,7 @@ export default function Dashboard({ directories, documents, storageUsed }: { dir
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-foreground">{storageUsed}</div>
-                <p className="text-xs text-muted-foreground">
-                  <span className="text-green-500">+12%</span> from last month
-                </p>
+                <p className="text-xs text-muted-foreground">Markdown documents stored</p>
               </CardContent>
             </Card>
           </div>
