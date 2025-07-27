@@ -15,11 +15,11 @@ export default function DirectoryIndex({ directories }: { directories: string[] 
 
   const search = (e: ChangeEvent<HTMLInputElement>) => {
     router.get(route("directories.index"), { search: e.target.value }, { preserveState: true });
-  }
+  };
 
   const sort = (value: string) => {
     router.get(route("directories.index"), { sort: value }, { preserveState: true });
-  }
+  };
 
   return (
     <AppLayout breadcrumbs={[{ title: "Directories", href: route("directories.index") }]}>
@@ -38,7 +38,7 @@ export default function DirectoryIndex({ directories }: { directories: string[] 
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="relative max-w-md flex-1">
               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Search directories..." className="pl-10" onChange={search}  />
+              <Input placeholder="Search directories..." className="pl-10" onChange={search} />
             </div>
             <div className="flex items-center gap-3">
               <Select defaultValue="asc" onValueChange={sort}>
