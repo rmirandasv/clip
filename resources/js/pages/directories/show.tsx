@@ -5,12 +5,20 @@ import { Container } from "@/components/ui/container";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AppLayout from "@/layouts/app-layout";
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { FilePlus, FileText, Filter, Grid3X3, List, Search } from "lucide-react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export default function DirectoryShow({ directory, files }: { directory: string; files: string[] }) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const search = (e: ChangeEvent<HTMLInputElement>) => {
+    router.get(route("directories.show", directory), { search: e.target.value }, { preserveState: true });
+  };
+
+  const sort = (value: string) => {
+    router.get(route("directories.show", directory), { sort: value }, { preserveState: true });
+  };
 
   return (
     <AppLayout
@@ -39,19 +47,17 @@ export default function DirectoryShow({ directory, files }: { directory: string;
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="relative max-w-md flex-1">
               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Search documents..." className="pl-10" />
+              <Input placeholder="Search documents..." className="pl-10" onChange={search} />
             </div>
             <div className="flex items-center gap-3">
-              <Select defaultValue="all">
+              <Select defaultValue="asc" onValueChange={sort}>
                 <SelectTrigger className="w-32">
                   <Filter className="mr-2 h-4 w-4" />
                   <SelectValue placeholder="Filter" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="recent">Recent</SelectItem>
-                  <SelectItem value="oldest">Oldest</SelectItem>
-                  <SelectItem value="name">Name</SelectItem>
+                  <SelectItem value="asc">Ascending</SelectItem>
+                  <SelectItem value="desc">Descending</SelectItem>
                 </SelectContent>
               </Select>
               <div className="flex items-center rounded-md border border-muted/30 bg-background/50">
