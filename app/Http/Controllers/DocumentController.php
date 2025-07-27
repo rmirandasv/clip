@@ -36,7 +36,7 @@ class DocumentController extends Controller
             return redirect()->route('documents.edit', [$directory, sprintf('%s.md', $request->name)]);
         }
 
-        return redirect()->route('documents.show', [$directory, $request->name]);
+        return redirect()->route('documents.show', [$directory, sprintf('%s.md', $request->name)]);
     }
 
     public function show(string $directory, string $file)

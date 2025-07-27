@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\CreateDirectory;
 use App\Queries\DirectoryQuery;
+use App\Queries\DocumentQuery;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -27,17 +28,15 @@ class DirectoryController extends Controller
 
         $directory = $createDirectory->handle($request->name);
 
-        return redirect()->back()->with([
-            'flash' => [
-                'message' => 'Directory created successfully',
-                'type' => 'success',
-            ],
-        ]);
+        return redirect()->route('directories.show', $directory);
     }
 
-    public function show(string $directory, DirectoryQuery $query)
+    public function show(string $directory, Request $request, DocumentQuery $query)
     {
-        $files = $query->files($directory);
+        $files = $query->directory($directory)
+            ->searchIf($request->input('search', ''))
+            ->sort($request->input('sort', 'asc'))
+            ->get();
 
         return Inertia::render('directories/show', compact('directory', 'files'));
     }

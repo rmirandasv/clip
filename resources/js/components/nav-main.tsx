@@ -41,9 +41,9 @@ export function NavMain({ directories = [] }: { directories: string[] }) {
           <SidebarMenuItem>
             <CreateDirectoryModal sidebar />
           </SidebarMenuItem>
-        </SidebarMenuItem>
-        <SidebarMenuItem>
-          <CreateDocumentModal sidebar />
+          <SidebarMenuItem>
+            <CreateDocumentModal sidebar />
+          </SidebarMenuItem>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>

@@ -25,7 +25,8 @@ type CreateDocumentModalProps = {
 };
 
 export default function CreateDocumentModal({ sidebar = false, directory = "" }: CreateDocumentModalProps) {
-  const { directories } = usePage<SharedData>().props;
+  const { global } = usePage<SharedData>().props;
+  const { directories } = global;
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof schema>>({
@@ -85,7 +86,7 @@ export default function CreateDocumentModal({ sidebar = false, directory = "" }:
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {directories.map((directory, index) => (
+                        {directories.map((directory: string, index: number) => (
                           <SelectItem key={index} value={directory}>
                             {directory}
                           </SelectItem>
