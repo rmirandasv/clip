@@ -13,13 +13,14 @@ class UpdateDocument
             'title' => $name,
             'tags' => $tags,
         ];
+
         $matter = Yaml::dump($matter);
         $content = sprintf("---\n%s---\n\n%s", $matter, $content);
 
         if ($name !== $file) {
-            Storage::disk('local')->delete(sprintf('%s/%s', $directory, $file));
+            Storage::disk('local')->delete(sprintf('%s/%s.md', $directory, $file));
         }
 
-        Storage::disk('local')->put(sprintf('%s/%s', $directory, $name), $content);
+        Storage::disk('local')->put(sprintf('%s/%s.md', $directory, $name), $content);
     }
 }
