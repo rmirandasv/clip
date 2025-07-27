@@ -1,3 +1,16 @@
+# [0.2.0](https://github.com/rmirandasv/clip/compare/v0.1.0...v0.2.0) (2025-07-27)
+
+
+### Features
+
+*  DirectoryQuery class for improved directory management ([6c1ecfe](https://github.com/rmirandasv/clip/commit/6c1ecfed9ed64ed8e89752ade3096374ec1b9c73))
+* add sidebar prop to CreateDirectoryModal for conditional rendering ([7752c09](https://github.com/rmirandasv/clip/commit/7752c09e1b77554d85046eef7b56007b64cdc3eb))
+* directory listing with search and sorting ([b011d72](https://github.com/rmirandasv/clip/commit/b011d72cead524526d0ae50e46a9263cd542511d))
+* directory search functionality ([5c8c787](https://github.com/rmirandasv/clip/commit/5c8c787a5120acb1588de0a8f0bf0b34bf52c87f))
+* enhance dashboard with storage usage display and refactor directory file retrieval ([b14ee29](https://github.com/rmirandasv/clip/commit/b14ee29907db69ab620b6509f6a2d9b2a2cf63d7))
+* implement CreateDocumentModal ([5839e96](https://github.com/rmirandasv/clip/commit/5839e963d48f846bbb19b8bfa762db38a870f602))
+* settings page and dark/light theme support ([c1b3682](https://github.com/rmirandasv/clip/commit/c1b3682d33d52d6754a9c4d11829b0f4a89ccc75))
+
 # [0.1.0](https://github.com/rmirandasv/clip/compare/v0.0.2...v0.1.0) (2025-07-23)
 
 
