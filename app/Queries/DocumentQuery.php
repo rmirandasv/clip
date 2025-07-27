@@ -7,12 +7,10 @@ use Illuminate\Support\Facades\Storage;
 class DocumentQuery
 {
     protected string $directory;
+
     protected array $files = [];
 
-    public function __construct(protected string $disk = 'local')
-    {
-
-    }
+    public function __construct(protected string $disk = 'local') {}
 
     public function directory(string $directory): self
     {
