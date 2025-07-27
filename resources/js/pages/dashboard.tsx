@@ -15,7 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function Dashboard({ directories, documents }: { directories: string[]; documents: string[] }) {
+export default function Dashboard({ directories, documents, storageUsed }: { directories: string[]; documents: string[]; storageUsed: string }) {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
@@ -32,7 +32,7 @@ export default function Dashboard({ directories, documents }: { directories: str
               <CreateDocumentModal />
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card className="border-muted/30 bg-background/50">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Total Directories</CardTitle>
@@ -57,24 +57,11 @@ export default function Dashboard({ directories, documents }: { directories: str
 
             <Card className="border-muted/30 bg-background/50">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Recent Activity</CardTitle>
-                <Activity className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-foreground">12</div>
-                <p className="text-xs text-muted-foreground">
-                  <span className="text-green-500">+2</span> from last week
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-muted/30 bg-background/50">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Storage Used</CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-foreground">2.4 MB</div>
+                <div className="text-2xl font-bold text-foreground">{storageUsed}</div>
                 <p className="text-xs text-muted-foreground">
                   <span className="text-green-500">+12%</span> from last month
                 </p>
@@ -138,10 +125,6 @@ export default function Dashboard({ directories, documents }: { directories: str
                     <FolderOpen className="h-4 w-4" />
                     Browse Directories
                   </Link>
-                </Button>
-
-                <Button asChild className="w-full justify-start" variant="outline">
-                  <CreateDirectoryModal />
                 </Button>
 
                 <Button asChild className="w-full justify-start" variant="outline">
