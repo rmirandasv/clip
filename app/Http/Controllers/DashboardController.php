@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Queries\DirectoryQuery;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DashboardController extends Controller

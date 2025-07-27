@@ -2,7 +2,6 @@
 
 namespace App\Queries;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class DirectoryQuery

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actions\CreateDirectory;
 use App\Queries\DirectoryQuery;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DirectoryController extends Controller
