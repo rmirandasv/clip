@@ -1,3 +1,17 @@
+# [0.3.0](https://github.com/rmirandasv/clip/compare/v0.2.0...v0.3.0) (2025-07-27)
+
+
+### Bug Fixes
+
+* correct file extension in document redirection ([f468963](https://github.com/rmirandasv/clip/commit/f46896330056cccdab07ddb00d5617efb86f0bf5))
+* correct nesting of SidebarMenuItem components in NavMain ([bc7c51c](https://github.com/rmirandasv/clip/commit/bc7c51c849d06df4b5a2f670be9d2fbda4f18b21))
+* update file extension handling in UpdateDocument action ([56f18de](https://github.com/rmirandasv/clip/commit/56f18def4a1b5cbce0679bdfe59d18a5a928f6de))
+
+
+### Features
+
+* implement document querying with search and sort functionality ([ed9e838](https://github.com/rmirandasv/clip/commit/ed9e8382f38f176ecf0f0a2b124e83d7ce1e74b3))
+
 # [0.2.0](https://github.com/rmirandasv/clip/compare/v0.1.0...v0.2.0) (2025-07-27)
 
 
