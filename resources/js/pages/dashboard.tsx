@@ -124,14 +124,6 @@ export default function Dashboard({ directories, documents, storageUsed }: { dir
                     Browse Directories
                   </Link>
                 </Button>
-
-                <Button asChild className="w-full justify-start" variant="outline">
-                  <Link href={route("documents.create", "general")} className="flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
-                    Create New Document
-                  </Link>
-                </Button>
-
                 <div className="pt-2">
                   <p className="mb-2 text-xs text-muted-foreground">Recent Directories</p>
                   {directories.length === 0 ? (
