@@ -27,12 +27,7 @@ class DirectoryController extends Controller
 
         $directory = $createDirectory->handle($request->name);
 
-        return redirect()->back()->with([
-            'flash' => [
-                'message' => 'Directory created successfully',
-                'type' => 'success',
-            ],
-        ]);
+        return redirect()->route('directories.show', $directory);
     }
 
     public function show(string $directory, DirectoryQuery $query)
