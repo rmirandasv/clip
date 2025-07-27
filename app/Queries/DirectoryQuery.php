@@ -50,4 +50,24 @@ class DirectoryQuery
     {
         return array_map(fn ($file) => basename($file), Storage::disk($this->disk)->files($directory));
     }
+
+    public function sort(string $direction = 'asc'): self
+    {
+        if ($direction === 'asc') {
+            sort($this->directories);
+        } else {
+            rsort($this->directories);
+        }
+
+        return $this;
+    }
+
+    public function searchIf(?string $query): self
+    {
+        if (strlen($query) > 0) {
+            $this->search($query);
+        }
+
+        return $this;
+    }
 }

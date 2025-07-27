@@ -12,13 +12,10 @@ class DirectoryController extends Controller
 {
     public function index(Request $request, DirectoryQuery $directoryQuery)
     {
-        $directories = [];
-
-        if (strlen($request->input('search', '') > 0)) {
-            $directories = $directoryQuery->search($request->search)->get();
-        } else {
-            $directories = $directoryQuery->get();
-        }
+        $directories = $directoryQuery
+            ->searchIf($request->input('search', ''))
+            ->sort($request->input('sort', 'asc'))
+            ->get();
 
         return Inertia::render('directories/index', compact('directories'));
     }
