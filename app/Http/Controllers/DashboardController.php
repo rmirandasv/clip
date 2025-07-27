@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
+use App\Queries\DirectoryQuery;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(DirectoryQuery $directoryQuery)
     {
-        $directories = Storage::disk('local')->directories();
-        $directories = array_map(fn ($directory) => basename($directory), $directories);
-        $documents = Storage::disk('local')->files();
-        $documents = array_map(fn ($document) => basename($document), $documents);
+        $directories = $directoryQuery->get();
+        $documents = array_merge(...array_map(fn ($directory) => $directoryQuery->files($directory, true), $directories));
+        $storageUsed = $directoryQuery->storageUsedFormatted();
 
-        return Inertia::render('dashboard', compact('directories', 'documents'));
+        return Inertia::render('dashboard', compact('directories', 'documents', 'storageUsed'));
     }
 }

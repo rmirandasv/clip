@@ -45,7 +45,9 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-            'directories' => Storage::disk('local')->directories(),
+            'global' => [
+                'directories' => Storage::disk('local')->directories(),
+            ],
         ];
     }
 }

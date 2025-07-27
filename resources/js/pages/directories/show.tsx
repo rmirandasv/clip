@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import AppLayout from "@/layouts/app-layout";
 import { Link } from "@inertiajs/react";
-import { FileText, Filter, Grid3X3, List, Plus, Search } from "lucide-react";
+import { FilePlus, FileText, Filter, Grid3X3, List, Search } from "lucide-react";
 import { useState } from "react";
 
 export default function DirectoryShow({ directory, files }: { directory: string; files: string[] }) {
@@ -28,10 +28,10 @@ export default function DirectoryShow({ directory, files }: { directory: string;
                 {files.length} document{files.length !== 1 ? "s" : ""} in this directory
               </p>
             </div>
-            <Button asChild className="flex items-center gap-2">
+            <Button asChild>
               <Link href={route("documents.create", directory)}>
-                <Plus className="h-4 w-4" />
-                Create Document
+                <FilePlus className="h-4 w-4" />
+                Document
               </Link>
             </Button>
           </div>
@@ -75,8 +75,8 @@ export default function DirectoryShow({ directory, files }: { directory: string;
                 <p className="mb-4 text-center text-sm text-muted-foreground">Get started by creating your first document in this directory.</p>
                 <Button asChild>
                   <Link href={route("documents.create", directory)} className="flex items-center gap-2">
-                    <Plus className="h-4 w-4" />
-                    Create Document
+                    <FilePlus className="h-4 w-4" />
+                    Document
                   </Link>
                 </Button>
               </CardContent>

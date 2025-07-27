@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Actions\CreateDirectory;
+use App\Queries\DirectoryQuery;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class DirectoryController extends Controller
 {
-    public function index()
+    public function index(Request $request, DirectoryQuery $directoryQuery)
     {
-        $directories = Storage::disk('local')->directories();
-        $directories = array_map(fn ($directory) => basename($directory), $directories);
+        $directories = $directoryQuery
+            ->searchIf($request->input('search', ''))
+            ->sort($request->input('sort', 'asc'))
+            ->get();
 
         return Inertia::render('directories/index', compact('directories'));
     }
@@ -33,10 +35,9 @@ class DirectoryController extends Controller
         ]);
     }
 
-    public function show(string $directory)
+    public function show(string $directory, DirectoryQuery $query)
     {
-        $files = Storage::disk('local')->files($directory);
-        $files = array_map(fn ($file) => basename($file), $files);
+        $files = $query->files($directory);
 
         return Inertia::render('directories/show', compact('directory', 'files'));
     }

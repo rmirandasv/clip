@@ -1,11 +1,12 @@
 import CreateDirectoryModal from "@/components/create-directory-modal";
+import CreateDocumentModal from "@/components/create-document-modal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import AppLayout from "@/layouts/app-layout";
 import { type BreadcrumbItem } from "@/types";
 import { Head, Link } from "@inertiajs/react";
-import { Activity, ArrowRight, Clock, FileIcon, FileText, Folder, FolderOpen, Plus, TrendingUp } from "lucide-react";
+import { Activity, ArrowRight, Clock, FileIcon, FileText, Folder, FolderOpen, TrendingUp } from "lucide-react";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -14,7 +15,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function Dashboard({ directories, documents }: { directories: string[]; documents: string[] }) {
+export default function Dashboard({ directories, documents, storageUsed }: { directories: string[]; documents: string[]; storageUsed: string }) {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
@@ -28,15 +29,10 @@ export default function Dashboard({ directories, documents }: { directories: str
             </div>
             <div className="flex items-center gap-3">
               <CreateDirectoryModal />
-              <Button asChild>
-                <Link href={route("documents.create", "general")} className="flex items-center gap-2">
-                  <Plus className="h-4 w-4" />
-                  New Document
-                </Link>
-              </Button>
+              <CreateDocumentModal />
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <Card className="border-muted/30 bg-background/50">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Total Directories</CardTitle>
@@ -61,24 +57,11 @@ export default function Dashboard({ directories, documents }: { directories: str
 
             <Card className="border-muted/30 bg-background/50">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">Recent Activity</CardTitle>
-                <Activity className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-foreground">12</div>
-                <p className="text-xs text-muted-foreground">
-                  <span className="text-green-500">+2</span> from last week
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="border-muted/30 bg-background/50">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">Storage Used</CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-foreground">2.4 MB</div>
+                <div className="text-2xl font-bold text-foreground">{storageUsed}</div>
                 <p className="text-xs text-muted-foreground">
                   <span className="text-green-500">+12%</span> from last month
                 </p>
@@ -145,10 +128,6 @@ export default function Dashboard({ directories, documents }: { directories: str
                 </Button>
 
                 <Button asChild className="w-full justify-start" variant="outline">
-                  <CreateDirectoryModal />
-                </Button>
-
-                <Button asChild className="w-full justify-start" variant="outline">
                   <Link href={route("documents.create", "general")} className="flex items-center gap-2">
                     <FileText className="h-4 w-4" />
                     Create New Document
@@ -187,12 +166,7 @@ export default function Dashboard({ directories, documents }: { directories: str
                   Get started by creating your first directory to organize your documents, or create a document directly.
                 </p>
                 <div className="flex items-center gap-3">
-                  <Button asChild>
-                    <Link href={route("directories.create")} className="flex items-center gap-2">
-                      <Folder className="h-4 w-4" />
-                      Create Directory
-                    </Link>
-                  </Button>
+                  <CreateDirectoryModal />
                   <Button asChild variant="outline">
                     <Link href={route("documents.create", "general")} className="flex items-center gap-2">
                       <FileText className="h-4 w-4" />
