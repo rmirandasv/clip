@@ -16,6 +16,8 @@
 - **🎨 Modern UI** - Beautiful, responsive interface built with React and Tailwind CSS
 - **⚡ Native Performance** - Built with NativePHP for optimal desktop experience
 
+<img width="1920" height="969" alt="image" src="https://github.com/user-attachments/assets/085c13d0-c7c2-4722-939c-cefeee3740cc" />
+
 ## 🚀 Quick Start
 
 ### Prerequisites
